@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 
 // Public Pages
 Route::get('/', function () {
-    return view('home');
+    $categories = \App\Models\Category::where('is_active', true)->take(5)->get();
+    $featuredProducts = \App\Models\Product::where('is_featured', true)->where('status', 'Active')->take(8)->get();
+    
+    return view('home', compact('categories', 'featuredProducts'));
 })->name('home');
 
 Route::get('/about', function () {
@@ -12,15 +15,28 @@ Route::get('/about', function () {
 })->name('about');
 
 Route::get('/shop', function () {
-    return view('shop');
+    $categories = \App\Models\Category::where('is_active', true)->get();
+    $products = \App\Models\Product::where('status', 'Active')->paginate(12);
+    
+    return view('shop', compact('categories', 'products'));
 })->name('shop');
 
-Route::get('/product/{id?}', function () {
-    return view('product');
+Route::get('/product/{id?}', function ($id = null) {
+    if ($id) {
+        $product = \App\Models\Product::with(['category', 'brand'])->findOrFail($id);
+    } else {
+        $product = \App\Models\Product::with(['category', 'brand'])->first();
+    }
+    
+    // For related products or footer
+    $categories = \App\Models\Category::take(5)->get();
+    
+    return view('product', compact('product', 'categories'));
 })->name('product');
 
 Route::get('/cart', function () {
-    return view('cart');
+    $categories = \App\Models\Category::take(5)->get();
+    return view('cart', compact('categories'));
 })->name('cart');
 
 Route::get('/checkout', function () {

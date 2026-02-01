@@ -1,0 +1,6 @@
+<!-- This is a placeholder for product images -->
+<!-- When a product doesn't have an image, this placeholder will be used -->
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#f3f4f6"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#9ca3af" font-family="Arial, sans-serif" font-size="16">No Image Available</text>
+</svg>
