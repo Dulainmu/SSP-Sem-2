@@ -75,7 +75,7 @@ class HomeController extends Controller
     public function product($id)
     {
         $product = Product::with(['category', 'brand', 'reviews.user', 'variants' => function($query) {
-            $query->where('is_active', true)->orderBy('color_name');
+            $query->orderBy('name');
         }])
             ->findOrFail($id);
 

@@ -97,7 +97,7 @@ class Product extends Model
      */
     public function activeVariants(): HasMany
     {
-        return $this->hasMany(ProductVariant::class)->where('is_active', true);
+        return $this->hasMany(ProductVariant::class);
     }
 
     /**
