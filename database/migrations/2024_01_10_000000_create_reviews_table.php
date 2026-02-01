@@ -11,8 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-            $table->index('rating');
-        });
+        if (!Schema::hasTable('reviews')) {
+            Schema::create('reviews', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('product_id')->constrained()->onDelete('cascade');
+                $table->foreignId('user_id')->constrained()->onDelete('cascade');
+                $table->integer('rating');
+                $table->string('title')->nullable();
+                $table->text('comment')->nullable();
+                $table->boolean('is_verified_purchase')->default(false);
+                $table->boolean('is_approved')->default(false);
+                $table->integer('helpful_count')->default(0);
+                $table->timestamps();
+
+                $table->index('rating');
+            });
+        }
     }
 
     /**

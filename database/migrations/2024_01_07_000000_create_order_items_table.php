@@ -15,10 +15,11 @@ return new class extends Migration
             Schema::create('order_items', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('order_id')->constrained()->onDelete('cascade');
-                $table->foreignId('product_id')->nullable()->constrained()->onDelete('set null'); // if product deleted, keep history?
-                $table->string('product_name'); // Keep name in history
+                $table->foreignId('product_id')->nullable()->constrained()->onDelete('set null');
+                $table->string('product_name');
+                $table->string('product_sku')->nullable();
                 $table->integer('quantity');
-                $table->decimal('price', 10, 2); // Price at time of purchase
+                $table->decimal('price', 10, 2);
                 $table->decimal('total', 10, 2);
                 $table->timestamps();
 

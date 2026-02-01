@@ -6,26 +6,28 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         if (!Schema::hasTable('product_variants')) {
             Schema::create('product_variants', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('product_id')->constrained()->onDelete('cascade');
-                $table->string('color_name');
-                $table->string('color_code')->nullable(); // Hex color code like #FF0000
-                $table->string('image_url')->nullable();
-                $table->decimal('price', 10, 2)->nullable(); // If price varies by color
+                $table->string('name'); // e.g., "Size: M, Color: Red"
+                $table->string('sku')->unique()->nullable();
+                $table->decimal('price', 10, 2)->nullable();
                 $table->integer('stock_quantity')->default(0);
-                $table->string('sku')->nullable()->unique();
-                $table->boolean('is_active')->default(true);
+                $table->json('attributes')->nullable(); // Store detailed attributes as JSON
                 $table->timestamps();
-                
-                $table->index(['product_id', 'color_name']);
             });
         }
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('product_variants');

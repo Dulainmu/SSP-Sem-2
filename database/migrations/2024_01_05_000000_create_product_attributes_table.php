@@ -15,9 +15,11 @@ return new class extends Migration
             Schema::create('product_attributes', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('product_id')->constrained()->onDelete('cascade');
-                $table->string('name');
-                $table->string('value');
+                $table->string('attribute_name', 100);
+                $table->text('attribute_value');
                 $table->timestamps();
+
+                $table->index(['product_id', 'attribute_name'], 'idx_product_attribute');
             });
         }
     }
