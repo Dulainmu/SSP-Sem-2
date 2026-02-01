@@ -16,9 +16,10 @@ Route::get('/about', function () {
 
 Route::get('/shop', function () {
     $categories = \App\Models\Category::where('is_active', true)->get();
+    $brands = \App\Models\Brand::all(); // Fetch all brands
     $products = \App\Models\Product::where('status', 'Active')->paginate(12);
     
-    return view('shop', compact('categories', 'products'));
+    return view('shop', compact('categories', 'brands', 'products'));
 })->name('shop');
 
 Route::get('/product/{id?}', function ($id = null) {
