@@ -11,7 +11,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/about', function () {
-    return view('about');
+    $categories = \App\Models\Category::take(5)->get();
+    return view('about', compact('categories'));
 })->name('about');
 
 Route::get('/shop', function () {
@@ -47,19 +48,23 @@ Route::get('/cart', function () {
 })->name('cart');
 
 Route::get('/checkout', function () {
-    return view('checkout');
+    $categories = \App\Models\Category::take(5)->get();
+    return view('checkout', compact('categories'));
 })->name('checkout');
 
 Route::get('/contact', function () {
-    return view('contact');
+    $categories = \App\Models\Category::take(5)->get();
+    return view('contact', compact('categories'));
 })->name('contact');
 
 Route::get('/wishlist', function () {
-    return view('wishlist');
+    $categories = \App\Models\Category::take(5)->get();
+    return view('wishlist', compact('categories'));
 })->name('wishlist');
 
 Route::get('/orders', function () {
-    return view('orders');
+    $categories = \App\Models\Category::take(5)->get();
+    return view('orders', compact('categories'));
 })->name('orders');
 
 Route::middleware([
