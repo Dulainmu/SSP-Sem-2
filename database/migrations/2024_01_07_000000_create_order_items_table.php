@@ -11,20 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_items', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->nullable()->constrained()->onDelete('set null');
-            $table->string('product_name');
-            $table->string('product_sku', 100)->nullable();
-            $table->integer('quantity');
-            $table->decimal('price', 10, 2);
-            $table->decimal('total', 10, 2);
-            $table->timestamp('created_at')->useCurrent();
+        if (!Schema::hasTable('order_items')) {
+            Schema::create('order_items', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('order_id')->constrained()->onDelete('cascade');
+                $table->foreignId('product_id')->nullable()->constrained()->onDelete('set null'); // if product deleted, keep history?
+                $table->string('product_name'); // Keep name in history
+                $table->integer('quantity');
+                $table->decimal('price', 10, 2); // Price at time of purchase
+                $table->decimal('total', 10, 2);
+                $table->timestamps();
 
-            $table->index('order_id');
-            $table->index('product_id');
-        });
+                $table->index('order_id');
+                $table->index('product_id');
+            });
+        }
     }
 
     /**

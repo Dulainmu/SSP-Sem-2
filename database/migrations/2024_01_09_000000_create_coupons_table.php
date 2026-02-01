@@ -11,21 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('coupons', function (Blueprint $table) {
-            $table->id();
-            $table->string('code', 50)->unique();
-            $table->enum('type', ['Percentage', 'Fixed Amount', 'Free Shipping']);
-            $table->decimal('amount', 10, 2);
-            $table->decimal('minimum_amount', 10, 2)->default(0);
-            $table->integer('usage_limit')->nullable();
-            $table->integer('used_count')->default(0);
-            $table->timestamp('expires_at')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->timestamps();
+        if (!Schema::hasTable('coupons')) {
+            Schema::create('coupons', function (Blueprint $table) {
+                $table->id();
+                $table->string('code')->unique();
+                $table->string('type'); // 'fixed', 'percentage'
+                $table->decimal('value', 10, 2);
+                $table->decimal('min_order_amount', 10, 2)->nullable();
+                $table->integer('usage_limit')->nullable();
+                $table->integer('used_count')->default(0);
+                $table->dateTime('expires_at')->nullable();
+                $table->boolean('is_active')->default(true);
+                $table->timestamps();
 
-            $table->index('code');
-            $table->index('is_active');
-        });
+                $table->index('code');
+                $table->index('is_active');
+            });
+        }
     }
 
     /**

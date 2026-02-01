@@ -11,23 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->string('order_number', 50)->unique();
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-            $table->enum('status', ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Refunded'])->default('Pending');
-            $table->string('currency', 3)->default('USD');
-            $table->decimal('subtotal', 10, 2);
-            $table->decimal('tax_amount', 10, 2)->default(0);
-            $table->decimal('shipping_amount', 10, 2)->default(0);
-            $table->decimal('discount_amount', 10, 2)->default(0);
-            $table->decimal('total_amount', 10, 2);
-            $table->enum('payment_method', ['Credit Card', 'PayPal', 'Bank Transfer', 'Cash on Delivery'])->default('Credit Card');
-            $table->enum('payment_status', ['Pending', 'Paid', 'Failed', 'Refunded'])->default('Pending');
-            $table->string('shipping_method', 100)->nullable();
-            $table->string('tracking_number', 100)->nullable();
-            $table->text('notes')->nullable();
-            
             // Billing Address
             $table->string('billing_first_name', 100)->nullable();
             $table->string('billing_last_name', 100)->nullable();
