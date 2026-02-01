@@ -11,39 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-            // Billing Address
-            $table->string('billing_first_name', 100)->nullable();
-            $table->string('billing_last_name', 100)->nullable();
-            $table->string('billing_company', 100)->nullable();
-            $table->string('billing_address_1')->nullable();
-            $table->string('billing_address_2')->nullable();
-            $table->string('billing_city', 100)->nullable();
-            $table->string('billing_state', 100)->nullable();
-            $table->string('billing_postal_code', 20)->nullable();
-            $table->string('billing_country', 100)->nullable();
-            $table->string('billing_email')->nullable();
-            $table->string('billing_phone', 20)->nullable();
-            
-            // Shipping Address
-            $table->string('shipping_first_name', 100)->nullable();
-            $table->string('shipping_last_name', 100)->nullable();
-            $table->string('shipping_company', 100)->nullable();
-            $table->string('shipping_address_1')->nullable();
-            $table->string('shipping_address_2')->nullable();
-            $table->string('shipping_city', 100)->nullable();
-            $table->string('shipping_state', 100)->nullable();
-            $table->string('shipping_postal_code', 20)->nullable();
-            $table->string('shipping_country', 100)->nullable();
-            
-            $table->timestamp('order_date')->useCurrent();
-            $table->timestamp('shipped_date')->nullable();
-            $table->timestamp('delivered_date')->nullable();
-            $table->timestamps();
-
-            $table->index('user_id');
-            $table->index('status');
-            $table->index('order_date');
-        });
+        if (!Schema::hasTable('orders')) {
+            Schema::create('orders', function (Blueprint $table) {
+                $table->id();
+                $table->string('order_number')->unique();
+                $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+                $table->decimal('total_amount', 10, 2);
+                $table->string('status')->default('Pending');
+                $table->string('payment_status')->default('Pending');
+                $table->string('payment_method')->nullable();
+                $table->text('shipping_address')->nullable();
+                $table->text('billing_address')->nullable();
+                $table->text('notes')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
