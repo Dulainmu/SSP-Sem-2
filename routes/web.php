@@ -11,7 +11,6 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FirebaseUploadTestController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-use App\Models\Category; // Added for closure routes
 
 // Firebase test routes (remove in production)
 Route::get('/test-firebase', [FirebaseUploadTestController::class, 'showForm']);
@@ -21,13 +20,9 @@ Route::post('/test-upload', [FirebaseUploadTestController::class, 'uploadSingle'
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
 Route::get('/product/{id}', [HomeController::class, 'product'])->name('product');
-
-// Modified About route to pass categories
 Route::get('/about', function () {
-    $categories = Category::where('is_active', true)->take(6)->get();
-    return view('about', compact('categories'));
+    return view('about');
 })->name('about');
-
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 

@@ -85,9 +85,7 @@ class HomeController extends Controller
             ->visible()
             ->take(4)
             ->get();
-            
-        $categories = Category::active()->take(6)->get();
 
-        return view('product', compact('product', 'relatedProducts', 'categories'));
+        return view('product', compact('product', 'relatedProducts'));
     }
 }

@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'firebase' => [
+        'credentials' => storage_path('app/firebase.json'),
+        'storage_bucket' => env('FIREBASE_STORAGE_BUCKET', 'gs://ssp-b7455.firebasestorage.app'),
+    ],
+
 ];
