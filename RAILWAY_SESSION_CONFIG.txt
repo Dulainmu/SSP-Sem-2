@@ -1,0 +1,9 @@
+# Add these environment variables to your Railway deployment:
+
+SESSION_DRIVER=cookie
+SESSION_SECURE_COOKIE=true
+SESSION_SAME_SITE=lax
+SESSION_LIFETIME=120
+
+# These ensure cookies work properly on HTTPS (Railway)
+# The cookie driver is more reliable than database for this use case
